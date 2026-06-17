@@ -1,0 +1,10 @@
+.git
+.github
+.next
+node_modules
+npm-debug.log*
+.env
+.env.*
+!.env.local.example
+Dockerfile
+README.take3.md

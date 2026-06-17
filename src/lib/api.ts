@@ -7,25 +7,17 @@ import type {
   DashboardSnapshot, KindCount, LanguageCount, ContractValidation,
 } from './schema'
 
-// Single base URL for the gortex server (http://.../v1/*).
-const SERVER_URL = process.env.NEXT_PUBLIC_GORTEX_URL
+// Single base URL for the gortex server. Empty means same-origin, which is the
+// shared Take Three deployment shape behind Cloudflare Access.
+const SERVER_URL = (process.env.NEXT_PUBLIC_GORTEX_URL
   || process.env.NEXT_PUBLIC_GORTEX_WEB_URL
-  || 'http://localhost:4747'
-
-// Optional bearer token. Required when the server was started with
-// --auth-token / $GORTEX_SERVER_TOKEN; otherwise leave unset.
-const AUTH_TOKEN = process.env.NEXT_PUBLIC_GORTEX_TOKEN || ''
-
-function authHeaders(): HeadersInit {
-  return AUTH_TOKEN ? { Authorization: `Bearer ${AUTH_TOKEN}` } : {}
-}
+  || '').replace(/\/$/, '')
 
 async function serverFetch(path: string, options?: RequestInit): Promise<Response> {
   const res = await fetch(`${SERVER_URL}${path}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      ...authHeaders(),
       ...options?.headers,
     },
   })
@@ -278,8 +270,7 @@ export const api = {
 
   // --- SSE for live activity ---
   subscribeEvents: (callback: (event: GraphChangeEvent) => void): EventSource => {
-    const qs = AUTH_TOKEN ? `?token=${encodeURIComponent(AUTH_TOKEN)}` : ''
-    const es = new EventSource(`${SERVER_URL}/v1/events${qs}`)
+    const es = new EventSource(`${SERVER_URL}/v1/events`)
     es.addEventListener('graph_change', (e) => {
       try {
         const data = JSON.parse(e.data) as GraphChangeEvent

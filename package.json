@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:browser-secrets": "node scripts/check-browser-secrets.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",

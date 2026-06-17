@@ -21,7 +21,6 @@ const KIND_COLORS: Record<string, string> = {
   contract: 'var(--k-contract)',
   package: 'var(--k-package)',
 }
-
 const LANG_COLORS: Record<string, string> = {
   go: 'oklch(0.72 0.12 215)',
   dart: 'oklch(0.72 0.12 240)',
@@ -63,7 +62,6 @@ function Kpi({
     </div>
   )
 }
-
 function RepoCard({ r }: { r: Repo }) {
   const kinds = [
     { label: 'functions',  value: r.funcs,      color: 'var(--k-function)' },
@@ -350,7 +348,7 @@ export function Dashboard() {
         </div>
         <div style={{ padding: 22, color: 'var(--fg-2)', fontSize: 13 }}>
           Make sure the gortex server is running on{' '}
-          <span className="mono">{process.env.NEXT_PUBLIC_GORTEX_URL || 'http://localhost:4747'}</span>.
+          <span className="mono">{process.env.NEXT_PUBLIC_GORTEX_URL || 'same origin'}</span>.
         </div>
       </>
     )
@@ -572,4 +570,3 @@ export function Dashboard() {
     </>
   )
 }
-
