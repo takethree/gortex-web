@@ -20,7 +20,7 @@ Use Node.js 22 for local and CI builds. The upstream package does not declare an
 runtime instead.
 
 ```powershell
-npm ci
+npm ci --ignore-scripts
 $env:NEXT_PUBLIC_GORTEX_URL = "https://gortex.take3tech.dev"
 npm run typecheck
 npm run build
@@ -28,8 +28,8 @@ npm run check:browser-secrets
 ```
 
 Production images are built from pinned commits in `takethree/gortex-web` with
-`npm ci` and the checked-in lockfile. Runtime pods must not clone source code or
-install application dependencies at startup.
+`npm ci --ignore-scripts` and the checked-in lockfile. Runtime pods must not
+clone source code or install application dependencies at startup.
 
 ## Credential Guardrail
 
