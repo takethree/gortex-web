@@ -68,6 +68,26 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and the
 [Code of Conduct](CODE_OF_CONDUCT.md). Security issues: see
 [SECURITY.md](SECURITY.md).
 
+## GitHub Actions pinning
+
+Pin remote `uses:` references in workflows, composite actions, and owned
+workflow templates to full lowercase 40-character commit SHAs. Preserve the
+original ref in an inline comment; resolve that ref upstream without upgrading
+versions. Local `./` references stay local; `docker://` references require a
+`sha256` digest.
+
+Run the same validation as CI:
+
+```bash
+python3 -m pip install --require-hashes --only-binary=:all: -r scripts/action-pins-requirements.txt
+python3 scripts/check_action_pins.py
+```
+
+Administrators must make **Validate pinned GitHub Actions / validate** a required
+check in branch protection or rulesets. This PR does not change those settings.
+Immutable references prevent tag movement; they do not establish that upstream
+code or its transitive dependencies are trustworthy.
+
 ## License
 
 See [LICENSE.md](LICENSE.md). Source-available under a PolyForm-based
